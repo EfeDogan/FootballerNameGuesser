@@ -1,0 +1,21 @@
+export const countryCoordinates = {
+  "Argentina": { lat: -34.6037, lon: -58.3816 },
+  "Portugal": { lat: 38.7223, lon: -9.1393 },
+  "Norway": { lat: 59.9139, lon: 10.7522 },
+  "France": { lat: 48.8566, lon: 2.3522 },
+  "Belgium": { lat: 50.8503, lon: 4.3517 },
+  "Egypt": { lat: 30.0444, lon: 31.2357 },
+  "Poland": { lat: 52.2297, lon: 21.0122 },
+  "Croatia": { lat: 45.8150, lon: 15.9819 },
+  "Netherlands": { lat: 52.3676, lon: 4.9041 },
+  "Brazil": { lat: -15.7975, lon: -47.8919 },
+  "England": { lat: 51.5074, lon: -0.1278 },
+  "Germany": { lat: 52.5200, lon: 13.4050 },
+  "Spain": { lat: 40.4168, lon: -3.7038 },
+  "Nigeria": { lat: 9.0820, lon: 7.4917 },
+  "Uruguay": { lat: -34.9011, lon: -56.1645 },
+  "Georgia": { lat: 41.7151, lon: 44.8271 },
+  "Morocco": { lat: 34.0209, lon: -6.8416 },
+  "South Korea": { lat: 37.5665, lon: 126.9780 },
+  "Italy": { lat: 41.9028, lon: 12.4964 }
+}

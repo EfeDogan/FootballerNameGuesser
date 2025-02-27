@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { players } from './data/players'
+import { countryCoordinates } from './data/countryCoordinates'
 import './App.css'
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
     return Math.round(R * c)
   }
 
+  const [guessCount, setGuessCount] = useState(0)
+
   const handleGuess = () => {
     const guessedPlayer = players.find(p => p.name.toLowerCase() === guess.toLowerCase())
     
@@ -39,6 +42,8 @@ function App() {
       setFeedback({ message: 'Player not found in database', type: 'error' })
       return
     }
+
+    updateCorrectGuesses(guessedPlayer)
 
     if (guessedPlayer.name === correctPlayer.name) {
       setFeedback({ 
@@ -49,11 +54,19 @@ function App() {
       return
     }
 
+    setGuessCount(prev => prev + 1)
+
+    const guessedCoords = countryCoordinates[guessedPlayer.country]
+    const correctCoords = countryCoordinates[correctPlayer.country]
+    const distance = guessedCoords && correctCoords ? 
+      calculateDistance(guessedCoords.lat, guessedCoords.lon, correctCoords.lat, correctCoords.lon) : null
+
     const feedbackInfo = [
       {
         attribute: 'Country',
         correct: guessedPlayer.country === correctPlayer.country,
-        value: guessedPlayer.country
+        value: guessedPlayer.country,
+        distance: distance ? `${distance} km away from the correct country` : null
       },
       {
         attribute: 'Team',
@@ -75,13 +88,54 @@ function App() {
     setFeedback({
       message: 'Keep trying! Here\'s what matches:',
       type: 'hint',
-      details: feedbackInfo
+      details: feedbackInfo,
+      showAnswer: guessCount >= 1
     })
+  }
+
+  const handleShowAnswer = () => {
+    setFeedback({
+      message: `The correct player was ${correctPlayer.name}!`,
+      type: 'error',
+      details: [
+        { attribute: 'Country', value: correctPlayer.country, correct: true },
+        { attribute: 'Team', value: correctPlayer.team, correct: true },
+        { attribute: 'League', value: correctPlayer.league, correct: true },
+        { attribute: 'Position', value: correctPlayer.position, correct: true }
+      ],
+      showNextButton: true
+    })
+  }
+
+  const [correctGuesses, setCorrectGuesses] = useState({
+    country: false,
+    team: false,
+    league: false,
+    position: false
+  })
+
+  useEffect(() => {
+    setCorrectGuesses({
+      country: false,
+      team: false,
+      league: false,
+      position: false
+    })
+  }, [correctPlayer])
+
+  const updateCorrectGuesses = (guessedPlayer) => {
+    setCorrectGuesses(prevGuesses => ({
+      country: prevGuesses.country || guessedPlayer.country === correctPlayer.country,
+      team: prevGuesses.team || guessedPlayer.team === correctPlayer.team,
+      league: prevGuesses.league || guessedPlayer.league === correctPlayer.league,
+      position: prevGuesses.position || guessedPlayer.position === correctPlayer.position
+    }))
   }
 
   return (
     <div className="game-container">
-      <h1>Footballer Guessing Game</h1>
+      <div className="game-content">
+        <h1>Footballer Guessing Game</h1>
       <div className="input-section">
         <div className="input-container">
           <input
@@ -123,7 +177,6 @@ function App() {
         </div>
         <button onClick={handleGuess}>Guess</button>
       </div>
-
       {feedback && (
         <div className={`feedback ${feedback.type}`}>
           <p>{feedback.message}</p>
@@ -132,9 +185,15 @@ function App() {
               {feedback.details.map((detail, index) => (
                 <div key={index} className={`detail ${detail.correct ? 'correct' : 'incorrect'}`}>
                   <span>{detail.attribute}:</span> {detail.value}
+                  {!detail.correct && detail.distance && (
+                    <div className="distance-hint">{detail.distance}</div>
+                  )}
                 </div>
               ))}
             </div>
+          )}
+          {feedback.type === 'hint' && guessCount >= 1 && !feedback.showNextButton && (
+            <button onClick={handleShowAnswer} className="show-answer-button">Show Answer</button>
           )}
           {feedback.showNextButton && (
             <button onClick={resetGame} className="next-game-button">Next Game</button>
@@ -142,6 +201,26 @@ function App() {
         </div>
       )}
     </div>
+    <div className="match-box">
+      <h2>Correct Matches</h2>
+      <div className="match-item">
+        <span>Country:</span>
+        {correctGuesses.country ? <span className="checkmark">{correctPlayer.country}</span> : null}
+      </div>
+      <div className="match-item">
+        <span>Team:</span>
+        {correctGuesses.team ? <span className="checkmark">{correctPlayer.team}</span> : null}
+      </div>
+      <div className="match-item">
+        <span>League:</span>
+        {correctGuesses.league ? <span className="checkmark">{correctPlayer.league}</span> : null}
+      </div>
+      <div className="match-item">
+        <span>Position:</span>
+        {correctGuesses.position ? <span className="checkmark">{correctPlayer.position}</span> : null}
+      </div>
+    </div>
+  </div>
   )
 }
 
