@@ -1,0 +1,124 @@
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.input-section {
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+}
+
+input {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+}
+
+button {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.feedback {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.feedback.error {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.feedback.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.feedback.hint {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.feedback-details {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail {
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail.correct {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.detail.incorrect {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.detail span {
+  font-weight: bold;
+}
+
+.input-container {
+  position: relative;
+  width: 300px;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.suggestions-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #333333;
+  transition: background-color 0.2s;
+}
+
+.suggestions-list li:hover {
+  background-color: #f5f5f5;
+  color: #000000;
+}
